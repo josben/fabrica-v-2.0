@@ -147,28 +147,46 @@ angular.module('starter', ['ionic','ngCordova'])
         myService.mensaje = $scope.textoss;
         
         objeto = {
-            foto: myService.foto,
-            //foto: "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAQAAABpN6lAAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2tpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw",
-            latitud: myService.latitud,
+//            foto: myService.foto,
+            foto: "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAQAAABpN6lAAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2tpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw",
+/*            latitud: myService.latitud,
             longitud: myService.longitud,
             altura: myService.altura,
             orientacion: myService.orientacion,
-            velocidad: myService.velocidad,
+            velocidad: myService.velocidad,*/
 
             
-            //latitud: 0,
-            //longitud: 0,
-            //altura: 50,
-            //orientacion: 30,
-            //velocidad: 3,
+            latitud: -1232323,
+            longitud: -2342344,
+            altura: 50,
+            orientacion: 30,
+            velocidad: 3,
             
-            imei: myService.imei,
-            //imei: " nina nawi v2 ",
+            //imei: myService.imei,
+            imei: " nina nawi v2 ",
             number_phone:64378089,
             mensaje: myService.mensaje, 
             //mensaje: "hola como estas benjamin"
         };
+        var msgdata =  {
+            photo : objeto.foto,
+            latitude : objeto.latitude,
+            longitude : objeto.longitude,
+            altitude : objeto.altura,
+            orientation : objeto.orientacion,
+            speed : objeto.velocidad,
+            imei : objeto.imei,
+            number_phone : objeto.number_phone,
+            message : objeto.mensaje,
+            date_creation : "2016-08-09T01:50:23.053000",
+            is_read : false,
+            is_valid : false,
+        }
+        console.log(msgdata)
+        var res = $http.post('http://127.0.0.1:8000/appmobile/', msgdata)
+
           // var url='http://192.168.0.104:8000/appmobile/services/?photo='+encodeURIComponent(objeto.foto)
+        /*
         var url='http://incendios.delallajta.com/appmobile/services/?photo='+encodeURIComponent(objeto.foto)
             url+='&'+'latitude='+encodeURIComponent(objeto.latitud)
             url+='&'+'longitude='+encodeURIComponent(objeto.longitud)
@@ -196,6 +214,7 @@ angular.module('starter', ['ionic','ngCordova'])
                 //window.close();
                 ionic.Platform.exitApp();
             });
+        */
     }
 })
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
