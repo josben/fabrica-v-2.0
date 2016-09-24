@@ -102,24 +102,25 @@ angular.module('starter', ['ionic','ngCordova'])
           myService.longitud = position.coords.longitude;
           myService.altura = position.coords.altitude;
           myService.velocidad=position.coords.speed;
-
+/*
          if(myService.latitud === null)
          {
-           myService.latitud=00;
+           myService.latitud="";
          }  
          if(myService.longitud === null)
          {
-           myService.longitud=00;
+           myService.longitud="";
          }         
           if(myService.altura === null)
          {
-           myService.altura=-1;
+           myService.altura="";
          }
            if(myService.velocidad === null)
          {
-           myService.velocidad=-1;
-         }  
-         
+           myService.velocidad="";
+         }
+*/
+
       },function(err) {
         //alert("encienda su GPS");
     }
@@ -145,7 +146,7 @@ angular.module('starter', ['ionic','ngCordova'])
 
     $scope.enviarDatos=function(){
         myService.mensaje = $scope.textoss;
-        
+       
         objeto = {
 //            foto: myService.foto,
             foto: "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAQAAABpN6lAAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2tpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw",
@@ -153,18 +154,18 @@ angular.module('starter', ['ionic','ngCordova'])
             longitud: myService.longitud,
             altura: myService.altura,
             orientacion: myService.orientacion,
-            velocidad: myService.velocidad,*/
+            velocidad: myService.velocidad,
 
-            
+*/
             latitud: -1232323,
             longitud: -2342344,
             altura: 50,
             orientacion: 30,
             velocidad: 3,
-            
-            //imei: myService.imei,
-            imei: " nina nawi v2 ",
-            number_phone:64378089,
+
+            imei: myService.imei,
+            //imei: " nina nawi v2 ",
+            number_phone:72200000,
             mensaje: myService.mensaje, 
             //mensaje: "hola como estas benjamin"
         };
@@ -178,12 +179,18 @@ angular.module('starter', ['ionic','ngCordova'])
             imei : objeto.imei,
             number_phone : objeto.number_phone,
             message : objeto.mensaje,
-            date_creation : "2016-08-09T01:50:23.053000",
             is_read : false,
             is_valid : false,
         }
         console.log(msgdata)
-        var res = $http.post('http://127.0.0.1:8000/appmobile/', msgdata)
+        $http.post('http://192.168.1.163:8000/appmobile/', msgdata)
+            .then(function(data, error){
+                window.test = data;
+                alert("Gracias por su denuncia");
+            }, function(err) {
+                alert(err);
+                ionic.Platform.exitApp();
+            });
 
           // var url='http://192.168.0.104:8000/appmobile/services/?photo='+encodeURIComponent(objeto.foto)
         /*
