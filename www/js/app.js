@@ -19,15 +19,15 @@ angular.module('starter', ['ionic','ngCordova'])
  
 .factory('myService',function(){
     objeto = {
-        foto: "",
-        latitud: "",
-        longitud: "",
-        altura: "",
-        orientacion: "",
-        velocidad: "",
-        imei:"",
-        phone:"",
-        mensaje:""
+        foto: null,
+        latitud: null,
+        longitud: null,
+        altura: null,
+        orientacion: null,
+        velocidad: null,
+        imei:null,
+        phone:null,
+        mensaje:null
     };
     return objeto;
 })
@@ -100,8 +100,24 @@ angular.module('starter', ['ionic','ngCordova'])
       .then(function (position) {
           myService.latitud = position.coords.latitude;
           myService.longitud = position.coords.longitude;
-          myService.altura = position.coords.altitude;
-          myService.velocidad=position.coords.speed;
+          myService.altura = ''+position.coords.altitude;
+          myService.velocidad= ''+position.coords.speed;
+
+          console.log("-----------------------------");
+          console.log(myService.latitud);
+          console.log(myService.longitud);
+          console.log("-----------------------------");
+          /*
+          alert('Latitude: '          + position.coords.latitude          + '\n' +
+          'Longitude: '         + position.coords.longitude         + '\n' +
+          'Altitude: '          + position.coords.altitude          + '\n' +
+          'Accuracy: '          + position.coords.accuracy          + '\n' +
+          'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
+          'Heading: '           + position.coords.heading           + '\n' +
+          'Speed: '             + position.coords.speed             + '\n' +
+          'Timestamp: '         + position.timestamp                + '\n');
+          */
+
 /*
          if(myService.latitud === null)
          {
@@ -132,13 +148,14 @@ angular.module('starter', ['ionic','ngCordova'])
     
     document.addEventListener("deviceready", function () {
         $cordovaDeviceOrientation.getCurrentHeading().then(function(result) {
-            myService.orientacion = result.magneticHeading;
+            myService.orientacion = ''+result.magneticHeading;
             //alert(myService.orientacion + "orientacion");
             if(myService.orientacion === null)
             {
-               myService.orientacion=-1;
-            }  
+               myService.orientacion = 0.0;
+            }
         }, function(err) {
+            myService.orientacion = 0.0;
             // An error occurred
         })
     });
@@ -148,21 +165,21 @@ angular.module('starter', ['ionic','ngCordova'])
         myService.mensaje = $scope.textoss;
        
         objeto = {
-//            foto: myService.foto,
-            foto: "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAQAAABpN6lAAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2tpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw",
-/*            latitud: myService.latitud,
+            foto: myService.foto,
+//            foto: "iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAQAAABpN6lAAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2tpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw",
+            latitud: myService.latitud,
             longitud: myService.longitud,
             altura: myService.altura,
             orientacion: myService.orientacion,
             velocidad: myService.velocidad,
 
-*/
+/*
             latitud: -1232323,
             longitud: -2342344,
             altura: 50,
             orientacion: 30,
             velocidad: 3,
-
+*/
             imei: myService.imei,
             //imei: " nina nawi v2 ",
             number_phone:72200000,
@@ -171,19 +188,17 @@ angular.module('starter', ['ionic','ngCordova'])
         };
         var msgdata =  {
             photo : objeto.foto,
-            latitude : objeto.latitude,
-            longitude : objeto.longitude,
+            latitude: objeto.latitud,
+            longitude: objeto.longitud,
             altitude : objeto.altura,
             orientation : objeto.orientacion,
             speed : objeto.velocidad,
-            imei : objeto.imei,
+            imei_device : objeto.imei,
             number_phone : objeto.number_phone,
             message : objeto.mensaje,
-            is_read : false,
-            is_valid : false,
-        }
+        };
         console.log(msgdata)
-        $http.post('http://192.168.1.163:8000/appmobile/', msgdata)
+        $http.post('http://incendios.scesi.org/appmobile/', msgdata)
             .then(function(data, error){
                 window.test = data;
                 alert("Gracias por su denuncia");
@@ -191,37 +206,6 @@ angular.module('starter', ['ionic','ngCordova'])
                 alert(err);
                 ionic.Platform.exitApp();
             });
-
-          // var url='http://192.168.0.104:8000/appmobile/services/?photo='+encodeURIComponent(objeto.foto)
-        /*
-        var url='http://incendios.delallajta.com/appmobile/services/?photo='+encodeURIComponent(objeto.foto)
-            url+='&'+'latitude='+encodeURIComponent(objeto.latitud)
-            url+='&'+'longitude='+encodeURIComponent(objeto.longitud)
-            url+='&'+'altitude='+encodeURIComponent(objeto.altura)
-            url+='&'+'orientation='+encodeURIComponent(objeto.orientacion)
-            url+='&'+'speed='+encodeURIComponent(objeto.velocidad)
-            url+='&'+'imei='+encodeURIComponent(objeto.imei)
-            url+='&'+'number_phone='+encodeURIComponent(objeto.number_phone)
-            url+='&'+'message='+encodeURIComponent(objeto.mensaje);
-            //alert(url);
-           // data ={
-      
-        $http.get(url)
-            .then(function(data,error){
-                window.tes=data;
-                alert(data.data);
-                alert(error);
-                $scope.days=data.data;
-                //location.reload();
-                //window.close();
-                ionic.Platform.exitApp();
-            }, function(err) {
-                alert(url);
-               //location.reload();
-                //window.close();
-                ionic.Platform.exitApp();
-            });
-        */
     }
 })
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
